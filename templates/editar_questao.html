@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Questão{% endblock %}
+
+{% block content %}
+<h1>Editar Questão</h1>
+<form method="POST">
+    <div class="form-group">
+        <label for="materia">Matéria</label>
+        <input type="text" class="form-control" id="materia" name="materia" value="{{ questao.materia }}" required>
+    </div>
+    <div class="form-group">
+        <label for="tema">Tema</label>
+        <input type="text" class="form-control" id="tema" name="tema" value="{{ questao.tema }}" required>
+    </div>
+    <div class="form-group">
+        <label for="banca">Banca</label>
+        <input type="text" class="form-control" id="banca" name="banca" value="{{ questao.banca }}" required>
+    </div>
+    <div class="form-group">
+        <label for="enunciado">Enunciado</label>
+        <textarea class="form-control" id="enunciado" name="enunciado" required>{{ questao.enunciado }}</textarea>
+    </div>
+    <div class="form-group">
+        <label for="tipo">Tipo</label>
+        <select class="form-control" id="tipo" name="tipo" required>
+            <option value="multipla_escolha" {% if questao.tipo == 'multipla_escolha' %}selected{% endif %}>Múltipla Escolha</option>
+            <option value="verdadeiro_falso" {% if questao.tipo == 'verdadeiro_falso' %}selected{% endif %}>Verdadeiro ou Falso</option>
+        </select>
+    </div>
+    <div id="alternativas" class="{% if questao.tipo == 'multipla_escolha' %}d-block{% else %}d-none{% endif %}">
+        <div class="form-group">
+            <label for="alternativa1">Alternativa 1</label>
+            <input type="text" class="form-control" id="alternativa1" name="alternativa1" value="{% if questao.alternativas %}{{ questao.alternativas.split(';')[0] }}{% endif %}">
+        </div>
+        <div class="form-group">
+            <label for="alternativa2">Alternativa 2</label>
+            <input type="text" class="form-control" id="alternativa2" name="alternativa2" value="{% if questao.alternativas %}{{ questao.alternativas.split(';')[1] }}{% endif %}">
+        </div>
+        <div class="form-group">
+            <label for="alternativa3">Alternativa 3</label>
+            <input type="text" class="form-control" id="alternativa3" name="alternativa3" value="{% if questao.alternativas %}{{ questao.alternativas.split(';')[2] }}{% endif %}">
+        </div>
+        <div class="form-group">
+            <label for="alternativa4">Alternativa 4</label>
+            <input type="text" class="form-control" id="alternativa4" name="alternativa4" value="{% if questao.alternativas %}{{ questao.alternativas.split(';')[3] }}{% endif %}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="resposta">Resposta</label>
+        <select class="form-control" id="resposta" name="resposta" required>
+            {% if questao.tipo == 'multipla_escolha' %}
+                {% for alternativa in questao.alternativas.split(';') %}
+                    <option value="{{ alternativa }}" {% if questao.resposta == alternativa %}selected{% endif %}>{{ alternativa }}</option>
+                {% endfor %}
+            {% else %}
+                <option value="Verdadeiro" {% if questao.resposta == 'Verdadeiro' %}selected{% endif %}>Verdadeiro</option>
+                <option value="Falso" {% if questao.resposta == 'Falso' %}selected{% endif %}>Falso</option>
+            {% endif %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Salvar</button>
+</form>
+
+<script>
+    document.getElementById('tipo').addEventListener('change', function () {
+        var display = this.value === 'multipla_escolha' ? 'block' : 'none';
+        document.getElementById('alternativas').style.display = display;
+    });
+</script>
+{% endblock %}

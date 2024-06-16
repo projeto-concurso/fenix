@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Simulado{% endblock %}
+
+{% block content %}
+<h1>Simulado</h1>
+<form method="POST">
+    <div class="form-group">
+        <label for="max_questoes">Quantidade Máxima de Questões</label>
+        <input type="number" class="form-control" id="max_questoes" name="max_questoes" min="1">
+    </div>
+    <div class="form-group">
+        <label for="materia">Matéria</label>
+        <select class="form-control" id="materia" name="materia">
+            <option value="">Selecione uma matéria</option>
+            {% for materia in materias %}
+                <option value="{{ materia[0] }}">{{ materia[0] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="banca">Banca</label>
+        <select class="form-control" id="banca" name="banca">
+            <option value="">Selecione uma banca</option>
+            {% for banca in bancas %}
+                <option value="{{ banca[0] }}">{{ banca[0] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="tema">Tema</label>
+        <select class="form-control" id="tema" name="tema">
+            <option value="">Selecione um tema</option>
+            {% for tema in temas %}
+                <option value="{{ tema[0] }}">{{ tema[0] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Gerar Simulado</button>
+</form>
+
+{% if questoes %}
+    <form method="POST" action="{{ url_for('submit_simulado') }}">
+        {% for questao in questoes %}
+            <div class="form-group">
+                <label>{{ questao.enunciado }}</label>
+                {% if questao.tipo == 'multipla_escolha' %}
+                    {% for alternativa in questao.alternativas.split(';') %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="{{ questao.id }}" value="{{ alternativa }}" required>
+                            <label class="form-check-label">{{ alternativa }}</label>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="{{ questao.id }}" value="Verdadeiro" required>
+                        <label class="form-check-label">Verdadeiro</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="{{ questao.id }}" value="Falso" required>
+                        <label class="form-check-label">Falso</label>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Enviar Simulado</button>
+    </form>
+{% endif %}
+{% endblock %}

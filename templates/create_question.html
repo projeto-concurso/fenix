@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}Criar Questão{% endblock %}
+
+{% block content %}
+<h1>Criar Questão</h1>
+<form method="POST">
+    <div class="form-group">
+        <label for="materia">Matéria</label>
+        <input type="text" class="form-control" id="materia" name="materia" required>
+    </div>
+    <div class="form-group">
+        <label for="tema">Tema</label>
+        <input type="text" class="form-control" id="tema" name="tema" required>
+    </div>
+    <div class="form-group">
+        <label for="banca">Banca</label>
+        <input type="text" class="form-control" id="banca" name="banca" required>
+    </div>
+    <div class="form-group">
+        <label for="enunciado">Enunciado</label>
+        <textarea class="form-control" id="enunciado" name="enunciado" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="tipo">Tipo</label>
+        <select class="form-control" id="tipo" name="tipo" required>
+            <option value="multipla_escolha">Múltipla Escolha</option>
+            <option value="verdadeiro_falso">Verdadeiro ou Falso</option>
+        </select>
+    </div>
+    <div id="alternativas" style="display: none;">
+        <div class="form-group">
+            <label for="alternativa1">Alternativa 1</label>
+            <input type="text" class="form-control" id="alternativa1" name="alternativa1">
+        </div>
+        <div class="form-group">
+            <label for="alternativa2">Alternativa 2</label>
+            <input type="text" class="form-control" id="alternativa2" name="alternativa2">
+        </div>
+        <div class="form-group">
+            <label for="alternativa3">Alternativa 3</label>
+            <input type="text" class="form-control" id="alternativa3" name="alternativa3">
+        </div>
+        <div class="form-group">
+            <label for="alternativa4">Alternativa 4</label>
+            <input type="text" class="form-control" id="alternativa4" name="alternativa4">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="resposta">Resposta</label>
+        <select class="form-control" id="resposta" name="resposta" required>
+            <option value="">Selecione a resposta</option> 
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Criar Questão</button>
+</form>
+
+<script>
+    document.getElementById('tipo').addEventListener('change', function () {
+        atualizarAlternativas();
+    });
+
+    // Função para atualizar as alternativas no dropdown
+    function atualizarAlternativas() {
+        var display = document.getElementById('tipo').value === 'multipla_escolha' ? 'block' : 'none';
+        document.getElementById('alternativas').style.display = display;
+        var respostaDropdown = document.getElementById('resposta');
+        respostaDropdown.innerHTML = '<option value="">Selecione a resposta</option>';
+        if (display === 'block') { // Só atualiza se for multipla escolha
+            for (let i = 1; i <= 4; i++) {
+                var alternativa = document.getElementById('alternativa' + i).value;
+                if (alternativa) { 
+                    respostaDropdown.innerHTML += `<option value="${alternativa}">${alternativa}</option>`;
+                }
+            }
+        } else {
+            respostaDropdown.innerHTML += '<option value="Verdadeiro">Verdadeiro</option>';
+            respostaDropdown.innerHTML += '<option value="Falso">Falso</option>';
+        }
+    }
+
+    // Adicionar listeners para cada caixa de texto de alternativa
+    for (let i = 1; i <= 4; i++) {
+        document.getElementById('alternativa' + i).addEventListener('input', function() {
+            atualizarAlternativas(); 
+        });
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h1>Admin Dashboard</h1>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('create_question') }}" role="button">Criação de Questões</a>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('simulado') }}" role="button">Criação de Simulado</a>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('manage_users') }}" role="button">Gerenciar Usuários</a>
+</div>
+{% endblock %}

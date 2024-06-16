@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register Questions</title>
+</head>
+<body>
+    <h2>Register Questions</h2>
+    <form method="POST">
+        <label for="subject">Subject:</label><br>
+        <input type="text" id="subject" name="subject" required><br>
+        <label for="topic">Topic:</label><br>
+        <input type="text" id="topic" name="topic" required><br>
+        <label for="bank">Bank:</label><br>
+        <input type="text" id="bank" name="bank" required><br>
+        <label for="question_type">Question Type:</label><br>
+        <select id="question_type" name="question_type" required>
+            <option value="multiple_choice">Multiple Choice</option>
+            <option value="true_false">True/False</option>
+        </select><br>
+        <label for="question_text">Question Text:</label><br>
+        <textarea id="question_text" name="question_text" required></textarea><br>
+        <label for="choices">Choices (for multiple choice, JSON format):</label><br>
+        <textarea id="choices" name="choices"></textarea><br>
+        <label for="correct_answer">Correct Answer:</label><br>
+        <input type="text" id="correct_answer" name="correct_answer" required><br><br>
+        <input type="submit" value="Register Question">
+    </form>
+</body>
+</html>
