@@ -11,7 +11,7 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
 # Defina seu código de admin aqui
-ADMIN_CODE = '123456'
+ADMIN_CODE = '6.<3nqUV2i0m'
 
 # Adicione o filtro split
 def split_filter(value, separator):
